@@ -23,7 +23,7 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 const corsOptions = {
   // add render.com
-  origin: ["http://localhost:3000", "http://localhost:5000"]
+  origin: ["https://zero6-jobs-api-brittany.onrender.com","http://localhost:3000", "http://localhost:5000"]
 }
 
 app.use(express.json());
