@@ -40,7 +40,7 @@ const updateGame = async (req, res) => {
     if (difficulty === '' || mistakes === '' || usedHints === '' || status === '') {
        throw new BadRequestError('Difficulty, mistakes, usedHints, and status fields cannot be empty!')
     }
-    const game = await Game.findByIdAndUpdate({_id: gameId, createdBy: userId}, req.body, {new: true, runValidators: true});
+    const game = await Game.findOneAndUpdate({_id: gameId, createdBy: userId}, req.body, {new: true, runValidators: true});
      if (!game) {
        throw new NotFoundError(`No game with id ${gameId}`);
      }
@@ -52,7 +52,7 @@ const deleteGame = async (req, res) => {
       user: { userId },
       params: { id: gameId },
     } = req;
-    const game = await Game.findByIdAndDelete({
+    const game = await Game.findOneAndDelete({
        _id: gameId, createdBy: userId
     });
     if (!game) {
