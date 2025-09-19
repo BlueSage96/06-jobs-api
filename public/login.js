@@ -40,7 +40,7 @@ export const handleLogin = () => {
           }
         } catch (err) {
            console.error(err);
-           message.textContent = "A communications error occured."
+           message.textContent = "A communications error has occured."
         }
         enableInput(true);
       } else if (e.target === logonCancel) {

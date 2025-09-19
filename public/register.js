@@ -63,7 +63,7 @@ export const handleRegister = () => {
              }
            } catch(err) {
               console.error(err);
-              message.textContent = "A communications error occurred.";
+              message.textContent = "A communications error has occurred.";
            }
            enableInput(true);
         }

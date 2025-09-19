@@ -26,11 +26,60 @@ export const handleGames = () => {
         message.textContent = `You have been logged off`;
         gamesTable.replaceChildren([gamesTableHeader]);
         showLoginRegister();
+      } 
+       /* 
+        The dataset.id contains the id of the entry to be edited. 
+        That is then passed on to the showAddEdit function. 
+        So we need to change that function to do something with this parameter.
+      */
+      else if (e.target.classList.contains("editButton")) {
+     
+        message.textContent = "";
+        showAddEdit(e.target.dataset.id);
       }
     }
   });
 };
 
 export const showGames = async () => {
+  try {
+     enableInput(false);
+     const response = await fetch("/api/v1/sudoku/game", {
+        method: "GET",
+        headers: {
+           "Content-Type": "application/json",
+           Authorization: `Bearer ${token}`
+        },
+     });
+     const data = await response.json();
+     let children = [gamesTableHeader];
+     if (response.status === 200) {
+        if (data.count === 0) {
+           gamesTable.replaceChildren(...children);//clear this for safety
+        } else {
+           for (let i = 0; i < data.games.length; i++) {
+              let rowEntry = document.createElement("tr");
+              let editButton = `<td><button type="button" class="editButton" data-id=${data.games[i]._id}>edit</button></td>`;
+              let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.games[i]._id}>delete</button></td>`;
+              let rowHTML = `
+            <td>${data.games[i].difficulty}</td>
+            <td>${data.games[i].mistakes}</td>
+            <td>${data.games[i].usedHints}</td>
+            <td>${data.games[i].status}</td>
+            <div>${editButton}${deleteButton}</div>`;
+
+             rowEntry.innerHTML = rowHTML;
+             children.push(rowEntry);
+           }
+           gamesTable.replaceChildren(...children);
+        }
+     } else {
+       message.textContent = data.msg;
+     }
+  } catch (err) {
+     console.log(err);
+     message.textContent = "A communications error has occurred.";
+  }
+  enableInput(true);
   setDiv(gamesDiv);
 };

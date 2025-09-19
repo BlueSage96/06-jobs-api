@@ -51,7 +51,7 @@ export const handleAddEdit = () => {
            }
         } catch (err) {
            console.log(err);
-           message.textContent = "A communications error occurred";
+           message.textContent = "A communications error has occurred";
         }
         enableInput(true);
       } else if (e.target === editCancel) {
