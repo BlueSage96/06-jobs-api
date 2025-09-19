@@ -33,7 +33,6 @@ export const handleGames = () => {
         So we need to change that function to do something with this parameter.
       */
       else if (e.target.classList.contains("editButton")) {
-     
         message.textContent = "";
         showAddEdit(e.target.dataset.id);
       }
