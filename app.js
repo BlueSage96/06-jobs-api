@@ -22,7 +22,6 @@ const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 const corsOptions = {
-  // add render.com
   origin: ["https://zero6-jobs-api-brittany.onrender.com","http://localhost:3000", "http://localhost:5000"]
 }
 
@@ -35,11 +34,11 @@ app.set('trust proxy', 1);
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,//15 minutes
-    max: 100 //up to 100 requests for each IP address
+    max: 1000 //up to 100 requests for each IP address
   })
 )
 // extra packages
-
+app.use(express.static("public"));
 // routes
 app.use("/api/v1/sudoku/auth", authRouter);
 app.use("/api/v1/sudoku/game", authenticateUser, gameRouter);

@@ -10,7 +10,7 @@ const GameSchema = new mongoose.Schema(
     },
     difficulty: {
       type: String,
-      enum: ["easy", "medium", "hard", "extreme"],
+      enum: ["Easy", "Medium", "Hard", "Extreme"],
       default: "easy",
       index: true,
     },
