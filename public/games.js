@@ -22,6 +22,9 @@ export const handleGames = () => {
         The user is logged off by deleting the JWT from memory.
         */
       } else if (e.target === logoff) {
+        setToken(null);
+        message.textContent = `You have been logged off`;
+        gamesTable.replaceChildren([gamesTableHeader]);
         showLoginRegister();
       }
     }
