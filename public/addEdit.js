@@ -23,6 +23,11 @@ export const handleAddEdit = () => {
         enableInput(false);
         let method = "POST";
         let url = "/api/v1/sudoku/game";
+
+        if (addingGame.textContent === "update") {
+           method = "PATCH";
+           url = `/api/v1/sudoku/game/${addEditDiv.dataset.id}`
+        }
         try {
            const response = await fetch(url, {
               method: method,
@@ -33,14 +38,20 @@ export const handleAddEdit = () => {
               body: JSON.stringify({
                  difficulty: difficulty.value,
                  mistakes: mistakes.value,
-                 hints: hints.value,
+                 usedHints: hints.value,
                  status: status.value,
               }),
            });
            const data = await response.json();
-           if (response.status === 201) {
-              // 201 indicates a successful create
-              message.textContent = "The game entry was created";
+           if (response.status === 200 || response.status === 201) {
+              if (response.status === 200) {
+                 //a 200 is expected for a successful update
+                 message.textContent = "The game entry was updated";
+              } else {
+                 // 201 indicates a successful create
+                 message.textContent = "The game entry was created";
+              }
+              
               difficulty.value = "";
               mistakes.value = "";
               hints.value = "";
@@ -62,7 +73,45 @@ export const handleAddEdit = () => {
   });
 };
 
-export const showAddEdit = (game) => {
-  message.textContent = "";
-  setDiv(addEditDiv);
+export const showAddEdit = async (gameId) => {
+  if (!gameId) {
+     difficulty.value = "";
+     mistakes.value = "";
+     hints.value = "";
+     status.value = "";
+     addingGame.textContent = "add";
+     message.textContent = "";
+     setDiv(addEditDiv);
+  } else {
+     enableInput(false);
+     try {
+       const response = await fetch(`/api/v1/sudoku/game/${gameId}`, {
+          method: "GET",
+          headers: {
+             "Content-Type": "application/json",
+             Authorization: `Bearer ${token}`
+          },
+       });
+       const data = await response.json();
+       if (response.status === 200) {
+          difficulty.value = data.game.difficulty;
+          mistakes.value = data.game.mistakes;
+          hints.value = data.game.usedHints;
+          status.value = data.game.status;
+          addingGame.textContent = "update";
+          message.textContent = "";
+          addEditDiv.dataset.id = gameId;
+          setDiv(addEditDiv);
+       } else {
+        // might happen if the list has been updated since last display
+         message.textContent = "The games entry was not found";
+         showGames();
+       }
+     } catch (err) {
+        console.log(err);
+        message.textContent = "A communications error has occurred";
+        showGames();
+     }
+     enableInput(true);
+  }
 };
