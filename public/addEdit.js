@@ -20,9 +20,43 @@ export const handleAddEdit = () => {
   addEditDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === addingGame) {
-        showGames();
+        enableInput(false);
+        let method = "POST";
+        let url = "/api/v1/sudoku/game";
+        try {
+           const response = await fetch(url, {
+              method: method,
+              headers: {
+                 "Content-Type": "application/json",
+                 Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                 difficulty: difficulty.value,
+                 mistakes: mistakes.value,
+                 hints: hints.value,
+                 status: status.value,
+              }),
+           });
+           const data = await response.json();
+           if (response.status === 201) {
+              // 201 indicates a successful create
+              message.textContent = "The game entry was created";
+              difficulty.value = "";
+              mistakes.value = "";
+              hints.value = "";
+              status.value = "";
+              showGames();
+           } else {
+              message.textContent = data.msg;
+           }
+        } catch (err) {
+           console.log(err);
+           message.textContent = "A communications error occurred";
+        }
+        enableInput(true);
       } else if (e.target === editCancel) {
-         showGames();
+        message.textContent = "";
+        showGames();
       }
     }
   });
