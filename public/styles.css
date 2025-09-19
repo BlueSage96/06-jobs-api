@@ -5,6 +5,7 @@ html {
 body {
     background-color: rgb(3,3,150);
     color: white;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 #gameContent {
@@ -20,6 +21,11 @@ body {
 
 h1, h2, h3 {
     text-shadow: 1px 1px solid black;
+}
+
+#title {
+    position: relative;
+    left: 100px;
 }
 
 button, input, option, #status {
@@ -40,6 +46,22 @@ form, div {
 table {
     margin-bottom: 12px;
     font-size: 22px;
+}
+
+#games {
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+th {
+    padding: 8px;
+}
+
+td {
+    outline: 2px solid white;
+    border-radius: 4px;
+    padding: 6px;
 }
 
 @media (max-width: 1600px) {

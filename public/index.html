@@ -5,13 +5,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css"/>
     <title>Sudoku Sage Registration</title>
 </head>
 
 <body>
     <div id="gameContent">
-        <h1>Sudoku Sage Registration</h1>
+        <h1 id="title">Sudoku Sage Registration</h1>
         <p id="message"></p>
         <div id="logon-register"> <button type="button" id="logon">logon</button> <button
             type="button" id="register">register</button> </div>
@@ -36,10 +39,10 @@
             <p id="games-message"></p>
             <table id="games-table">
                 <tr id="games-table-header">
-                    <th>Difficulty |</th>
-                    <th> Mistakes |</th>
-                    <th> Hints |</th>
-                    <th> Status</th>
+                    <th>Difficulty</th>
+                    <th>Mistakes</th>
+                    <th>Hints</th>
+                    <th>Status</th>
                     <th colspan="2"></th>
                 </tr>
             </table> <button type="button" id="add-game">add game</button> <button type="button" id="logoff">log off</button>
