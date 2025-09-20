@@ -28,9 +28,14 @@ h1, h2, h3 {
     left: 100px;
 }
 
+#logon-div, #register-div {
+    display: none;
+}
+
 button, input, option, #status {
    background-color: black;
 }
+
 
 button {
     border: 1px solid white;
