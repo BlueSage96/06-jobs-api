@@ -34,7 +34,7 @@ app.set('trust proxy', 1);
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,//15 minutes
-    max: 1000 //up to 100 requests for each IP address
+    max: 100 //up to 100 requests for each IP address
   })
 )
 // extra packages
