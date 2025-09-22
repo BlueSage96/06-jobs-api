@@ -43,6 +43,7 @@ app.use(express.static("public"));
 app.use("/api/v1/sudoku/auth", authRouter);
 app.use("/api/v1/sudoku/game", authenticateUser, gameRouter);
 
+app.get("/__ping", (req, res) => res.send("ok"));
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 

@@ -1,6 +1,7 @@
 import { inputEnabled, setDiv, message, setToken, token, enableInput } from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showAddEdit } from "./addEdit.js";
+import { showAddDelete } from "./addDelete.js";
 
 let gamesDiv = null;
 let gamesTable = null;
@@ -35,6 +36,9 @@ export const handleGames = () => {
       else if (e.target.classList.contains("editButton")) {
         message.textContent = "";
         showAddEdit(e.target.dataset.id);
+      } else if (e.target.classList.contains("deleteButton")) {
+         message.textContent = "";
+         showAddDelete(e.target.dataset.id);
       }
     }
   });

@@ -66,6 +66,7 @@ import { showGames, handleGames } from "./games.js";
 import { showLoginRegister, handleLoginRegister } from "./loginRegister.js";
 import { handleLogin } from "./login.js";
 import { handleAddEdit } from "./addEdit.js";
+import { handleAddDelete } from "./addDelete.js";
 import { handleRegister } from "./register.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -76,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   handleGames();
   handleRegister();
   handleAddEdit();
+  handleAddDelete();
   if (token) {
     showGames();
   } else {
