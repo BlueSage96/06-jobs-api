@@ -22,7 +22,6 @@ const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 const corsOptions = {
-  // add render.com
   origin: ["https://zero6-jobs-api-brittany.onrender.com","http://localhost:3000", "http://localhost:5000"]
 }
 
@@ -39,11 +38,12 @@ app.use(
   })
 )
 // extra packages
-
+app.use(express.static("public"));
 // routes
 app.use("/api/v1/sudoku/auth", authRouter);
 app.use("/api/v1/sudoku/game", authenticateUser, gameRouter);
 
+app.get("/__ping", (req, res) => res.send("ok"));
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 

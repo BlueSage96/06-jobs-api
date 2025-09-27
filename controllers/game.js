@@ -58,7 +58,7 @@ const deleteGame = async (req, res) => {
     if (!game) {
       throw new NotFoundError(`No game with id ${gameId}`);
     }
-    res.status(StatusCodes.OK).json({ game });
+    res.status(StatusCodes.OK).json({ game, msg: "The entry was deleted" });
 };
 
 module.exports = { getAllGames, getAGame, createGame, updateGame, deleteGame };
