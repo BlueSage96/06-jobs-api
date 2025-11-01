@@ -15,7 +15,7 @@ const authenticateUser = require('./middleware/authentication');
 
 // routers
 const authRouter = require("./routes/auth");
-const gameRouter = require("./routes/game");
+const gameRouter = require("./routes/gamesRoute");
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
