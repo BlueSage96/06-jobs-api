@@ -1,9 +1,8 @@
 import { inputEnabled, setDiv, message, setToken, token, enableInput } from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showAddEdit } from "./addEdit.js";
-import { showAddDelete } from "./addDelete.js";
 
-let gamesDiv = null;
+export let gamesDiv = null;
 let gamesTable = null;
 let gamesTableHeader = null;
 
@@ -14,15 +13,16 @@ export const handleGames = () => {
   gamesTable = document.getElementById("games-table");
   gamesTableHeader = document.getElementById("games-table-header");
 
-  gamesDiv.addEventListener("click", (e) => {
+  gamesDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
-      if (e.target === addGame) {
+      const target = e.target;
+      if (target === addGame) {
         showAddEdit(null);
         /*
         Note that logoff involves no communication with the back end. 
         The user is logged off by deleting the JWT from memory.
         */
-      } else if (e.target === logoff) {
+      } else if (target === logoff) {
         setToken(null);
         message.textContent = `You have been logged off`;
         gamesTable.replaceChildren([gamesTableHeader]);
@@ -33,12 +33,38 @@ export const handleGames = () => {
         That is then passed on to the showAddEdit function. 
         So we need to change that function to do something with this parameter.
       */
-      else if (e.target.classList.contains("editButton")) {
+      else if (target.classList.contains("editButton")) {
         message.textContent = "";
-        showAddEdit(e.target.dataset.id);
-      } else if (e.target.classList.contains("deleteButton")) {
+        showAddEdit(target.dataset.id);
+      } else if (target.classList.contains("deleteButton")) {
          message.textContent = "";
-         showAddDelete(e.target.dataset.id);
+         const gameId = target.dataset.id;
+          if (!confirm("Are you sure you want to delete this game?")) return;
+          const row = target.closest("tr");
+          const url = `/api/v1/sudoku/game/${gameId}`;
+          try {
+           const response = await fetch(url, {
+              method: "DELETE",
+              headers: {
+                 "Content-Type": "application/json",
+                 Authorization: `Bearer ${token}`,
+              }, body: JSON.stringify({ id: gameId })
+           });
+           const data = await response.json();
+           if (response.status === 200 || response.status === 201) {
+              //a 200 is expected for a successful update
+                 message.textContent = "The game entry was deleted";
+                if (row) row.remove();//deletes game
+              showGames();
+           } else {
+               // 201 indicates a successful delete
+                 message.textContent = "An error has occurred" || data.msg;
+           }
+        } catch (err) {
+           console.log(err);
+           message.textContent = "A communications error has occurred";
+        }
+        enableInput(true);
       }
     }
   });

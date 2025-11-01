@@ -7,6 +7,7 @@ let mistakes = null;
 let hints = null;
 let status = null;
 let addingGame = null;
+let currentGameId = null;
 
 export const handleAddEdit = () => {
   addEditDiv = document.getElementById("edit-game");
@@ -21,13 +22,8 @@ export const handleAddEdit = () => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === addingGame) {
         enableInput(false);
-        let method = "POST";
-        let url = "/api/v1/sudoku/game";
-
-        if (addingGame.textContent === "update") {
-           method = "PATCH";
-           url = `/api/v1/sudoku/game/${addEditDiv.dataset.id}`
-        }
+        const url = currentGameId ? `/api/v1/sudoku/game/${currentGameId}` : "/api/v1/sudoku/game";
+        const method = currentGameId ? "PATCH" : "POST";
         try {
            const response = await fetch(url, {
               method: method,
@@ -43,22 +39,16 @@ export const handleAddEdit = () => {
               }),
            });
            const data = await response.json();
-           if (response.status === 200 || response.status === 201) {
-              if (response.status === 200) {
-                 //a 200 is expected for a successful update
-                 message.textContent = "The game entry was updated";
-              } else {
-                 // 201 indicates a successful create
-                 message.textContent = "The game entry was created";
-              }
-              
+           if (response.ok ) {
+              message.textContent = currentGameId ? "The game entry was updated" : "The game entry was created";
+              currentGameId = null;
               difficulty.value = "";
               mistakes.value = "";
               hints.value = "";
               status.value = "";
               showGames();
            } else {
-              message.textContent = data.msg;
+              message.textContent = "Failed to save game" || data.msg;
            }
         } catch (err) {
            console.log(err);
@@ -74,15 +64,12 @@ export const handleAddEdit = () => {
 };
 
 export const showAddEdit = async (gameId) => {
-  if (!gameId) {
-     difficulty.value = "";
-     mistakes.value = "";
-     hints.value = "";
-     status.value = "";
-     addingGame.textContent = "add";
-     message.textContent = "";
-     setDiv(addEditDiv);
-  } else {
+   currentGameId = gameId;
+   setDiv(addEditDiv);
+   addingGame.textContent = gameId ? "edit" : "add";
+   
+  if (!gameId) return
+
      enableInput(false);
      try {
        const response = await fetch(`/api/v1/sudoku/game/${gameId}`, {
@@ -98,10 +85,6 @@ export const showAddEdit = async (gameId) => {
           mistakes.value = data.game.mistakes;
           hints.value = data.game.usedHints;
           status.value = data.game.status;
-          addingGame.textContent = "update";
-          message.textContent = "";
-          addEditDiv.dataset.id = gameId;
-          setDiv(addEditDiv);
        } else {
         // might happen if the list has been updated since last display
          message.textContent = "The games entry was not found";
@@ -113,5 +96,5 @@ export const showAddEdit = async (gameId) => {
         showGames();
      }
      enableInput(true);
-  }
+
 };

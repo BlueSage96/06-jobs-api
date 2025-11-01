@@ -20,17 +20,17 @@
             type="button" id="register">register</button> </div>
         <div id="logon-div">
             <form>
-                <div> <label for="email">Email:</label> <input type="email" id="email" /> </div>
-                <div> <label for="password">Password:</label> <input type="password" id="password" /> </div> <button
+                <div> <label for="email">Email:</label> <input type="email" id="email" required/> </div>
+                <div> <label for="password">Password:</label> <input type="password" id="password" required/> </div> <button
                     type="button" id="logon-button">logon</button> <button type="button" id="logon-cancel">cancel</button>
             </form>
         </div>
         <div id="register-div">
             <form>
-                <div> <label for="name">Name:</label> <input type="text" id="name" /> </div>
-                <div> <label for="email1">Email:</label> <input type="email" id="email1" /> </div>
-                <div> <label for="password1">Password:</label> <input type="password" id="password1" /> </div>
-                <div> <label for="password2">Verify password:</label> <input type="password" id="password2" /> </div>
+                <div> <label for="name">Name:</label> <input type="text" id="name" required/> </div>
+                <div> <label for="email1">Email:</label> <input type="email" id="email1" required/> </div>
+                <div> <label for="password1">Password:</label> <input type="password" id="password1" required/> </div>
+                <div> <label for="password2">Verify password:</label> <input type="password" id="password2" required/> </div>
                 <button type="button" id="register-button">register</button> <button type="button"
                     id="register-cancel">cancel</button>
             </form>
@@ -49,9 +49,9 @@
         </div>
         <div id="edit-game">
             <form>
-                <div> <label for="difficulty">Difficulty:</label> <input type="text" id="difficulty" /> </div>
-                <div> <label for="mistakes">Mistakes:</label> <input type="text" id="mistakes" /> </div>
-                <div><label for="hints">Hints:</label><input type="text" id="hints"/></div>
+                <div> <label for="difficulty">Difficulty:</label> <input type="text" id="difficulty" required/> </div>
+                <div> <label for="mistakes">Mistakes:</label> <input type="text" id="mistakes" required/> </div>
+                <div><label for="hints">Hints:</label><input type="text" id="hints" required/></div>
                 <div> <label for="status">Status:</label> <select id="status">
                         <option value="Not started">Not started</option>
                         <option value="In progress">In progress</option> 
@@ -63,12 +63,6 @@
                     <button type="button" id="edit-cancel">cancel</button>
             </form>
         </div>
-        <div id="delete-game">
-            <button type="button" id="deleting-game">delete</button>
-            <button type="button" id="delete-cancel">cancel</button>
-        </div>
-    </div>
-    
     <script src="./index.js" type="module"></script>
 </body>
 
