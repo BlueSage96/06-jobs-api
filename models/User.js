@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    require: [true, "Please provide a valid email address"],
+    required: [true, "Please provide a valid email address"],
     match: [
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       " Please provide a valid email address",
@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, " Please provide a pasword"],
+    required: [true, "Please provide a password"],
     minlength: 6,
   },
 });
@@ -28,6 +28,8 @@ const UserSchema = new mongoose.Schema({
 // create user schema functions
 // save password with hash
 UserSchema.pre('save', async function() {
+  //avoids corruption when editng user profiles
+  if (!this.isModified("password")) return;
   /* hashes are a collection of random bytes -> gen salt
      hash passwords!!*/
   const salt = await bcrypt.genSalt(10); //the bigger the number, the more secure & random; takes more memory
